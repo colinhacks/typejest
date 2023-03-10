@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 align="center"><code>🦆 typejest</code></h1>
+  <h1 align="center">🦆 Typejest</h1>
   <p align="center">
     Delightful type assertions
   </p>
@@ -16,7 +16,7 @@
 <br/>
 <br/>
 
-Types need tests, too. `typejest` is a Jest-like assertion library for static types.
+**Types need tests, too! Typejest is a Jest-like assertion library for static types.**
 
 ## Installation
 
