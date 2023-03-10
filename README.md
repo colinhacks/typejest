@@ -47,7 +47,7 @@ texpect<string>(); // TExpect<string>
 
 > Note: `texpect` is analogous to `expect` in Jest.
 
-The returned `Declare` object has methods that can be used to make assertions about the type. For instance, to assert that the input _exactly matches_ a certain type:
+The returned `TExpect` object has methods that can be used to make assertions about the type. For instance, to assert that the input _exactly matches_ a certain type:
 
 ```ts
 import {texpect} from 'typejest';
@@ -99,7 +99,7 @@ texpect<void>().void();
 
 ### Object types
 
-The following helpers are available for _object types_. These helpers transform the input type and return a new `Declare` instance. They _do not_ make any assertions about the type.
+The following helpers are available for _object types_. These helpers transform the input type and return a new `TExpect` instance. They _do not_ make any assertions about the type.
 
 ```ts
 type Dog = {name: string; age?: number};

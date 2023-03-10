@@ -1,6 +1,6 @@
 {
   "name": "typejest",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "module": "./lib/mod.js",
   "main": "./lib/mod.js",
   "devDependencies": {

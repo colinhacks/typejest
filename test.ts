@@ -1,91 +1,91 @@
-import {typeduck} from './mod.js';
+import {texpect} from './mod.js';
 
 const value = 'tuna';
-typeduck(value).is<string>();
+texpect(value).is<string>();
 
-typeduck<string>().extends<any>();
-typeduck<number>().is<number>();
-typeduck(5).is<number>();
+texpect<string>().extends<any>();
+texpect<number>().is<number>();
+texpect(5).is<number>();
 
 function length(arg: string) {
   return arg.length;
 }
 
-typeduck<typeof length>().returns<number>();
-typeduck<typeof length>().accepts<[string]>();
+texpect<typeof length>().returns<number>();
+texpect<typeof length>().accepts<[string]>();
 
 const tupleValue = ['string', 234] as const;
-typeduck(tupleValue).writable.is<['string', 234]>();
-typeduck(tupleValue).first<'string'>();
-typeduck(tupleValue).last<234>();
-typeduck(tupleValue).tuple();
-typeduck<[]>().tuple();
+texpect(tupleValue).writable.is<['string', 234]>();
+texpect(tupleValue).first<'string'>();
+texpect(tupleValue).last<234>();
+texpect(tupleValue).tuple();
+texpect<[]>().tuple();
 // @ts-expect-error
-typeduck<string[]>().tuple();
+texpect<string[]>().tuple();
 
 interface Dog {
   name: string;
   age: number;
 }
 
-typeduck<Dog>().omit('name').is<{age: number}>();
-typeduck<Dog>().omit<'name'>().is<{age: number}>();
-typeduck<Dog>().pick('name').is<{name: string}>();
-typeduck<Dog>().partial.pick<'name'>().is<{name?: string}>();
-typeduck<Dog>().keyof.is<'name' | 'age'>();
+texpect<Dog>().omit('name').is<{age: number}>();
+texpect<Dog>().omit<'name'>().is<{age: number}>();
+texpect<Dog>().pick('name').is<{name: string}>();
+texpect<Dog>().partial.pick<'name'>().is<{name?: string}>();
+texpect<Dog>().keyof.is<'name' | 'age'>();
 
 // @ts-expect-error
-typeduck<number>('asdf');
+texpect<number>('asdf');
 // @ts-expect-error
-typeduck<number>().is<string>();
+texpect<number>().is<string>();
 // @ts-expect-error
-typeduck<number>().is('asdf');
+texpect<number>().is('asdf');
 // @ts-expect-error
-typeduck<any>().is<number>();
+texpect<any>().is<number>();
 // @ts-expect-error
-typeduck<number>().is<any>();
+texpect<number>().is<any>();
 
-typeduck('asdf').string();
-typeduck(123).number();
-typeduck(true).boolean();
-typeduck(false).boolean();
-typeduck(Symbol()).symbol();
-typeduck(BigInt(123)).bigint();
-typeduck({}).object();
-typeduck(() => {}).function();
-typeduck<any[]>().array();
-typeduck(null).null();
-typeduck(undefined).undefined();
-typeduck<never>().never();
-typeduck<unknown>().unknown();
-typeduck<void>().void();
+texpect('asdf').string();
+texpect(123).number();
+texpect(true).boolean();
+texpect(false).boolean();
+texpect(Symbol()).symbol();
+texpect(BigInt(123)).bigint();
+texpect({}).object();
+texpect(() => {}).function();
+texpect<any[]>().array();
+texpect(null).null();
+texpect(undefined).undefined();
+texpect<never>().never();
+texpect<unknown>().unknown();
+texpect<void>().void();
 
-typeduck('asdf').string();
+texpect('asdf').string();
 // @ts-expect-error
-typeduck('asdf').number();
+texpect('asdf').number();
 // @ts-expect-error
-typeduck('asdf').boolean();
+texpect('asdf').boolean();
 // @ts-expect-error
-typeduck('asdf').boolean();
+texpect('asdf').boolean();
 // @ts-expect-error
-typeduck('asdf').symbol();
+texpect('asdf').symbol();
 // @ts-expect-error
-typeduck('asdf').bigint();
+texpect('asdf').bigint();
 // @ts-expect-error
-typeduck('asdf').object();
+texpect('asdf').object();
 // @ts-expect-error
-typeduck('asdf').function();
+texpect('asdf').function();
 // @ts-expect-error
-typeduck<'asdf'>().array();
+texpect<'asdf'>().array();
 // @ts-expect-error
-typeduck('asdf').null();
+texpect('asdf').null();
 // @ts-expect-error
-typeduck('asdf').undefined();
+texpect('asdf').undefined();
 // @ts-expect-error
-typeduck<'asdf'>().never();
+texpect<'asdf'>().never();
 // @ts-expect-error
-typeduck<'asdf'>().unknown();
+texpect<'asdf'>().unknown();
 // @ts-expect-error
-typeduck<'asdf'>().void();
+texpect<'asdf'>().void();
 
-typeduck(1243).is<number>();
+texpect(1243).is<number>();
