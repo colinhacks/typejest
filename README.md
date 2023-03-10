@@ -30,25 +30,32 @@ pnpm add -D typejest
 
 ## Usage
 
-It's conventional to import the `declare` function `typejest`. This is the equivalent of Jest's `expect`.
+First, import the `declare` function from `typejest`.
 
 ```ts
 import {declare} from 'typejest';
 ```
 
-Start by specifying an _input type_; this is analagous to calling `expect(value)` in Jest. You can either pass a value into `declare` (`typejest` will infer its type) or a pass a type manually:
+Start by specifying an _input type_.
 
 ```ts
+// you can pass in a value
 declare('tuna'); // Declare<string>
+
+// or pass in a type directly
 declare<string>(); // Declare<string>
 ```
 
-The returned `Declare` object has a bunch of methods that can be usd to make assertions about the type. To assert that the input _exactly matches_ a certain type:
+> Note: `declare` is analogous to `expect` in Jest.
+
+The returned `Declare` object has a bunch of methods that can be usd to make assertions about the type.
+
+To assert that the input _exactly matches_ a certain type:
 
 ```ts
 import {declare} from 'typejest';
 
-declare('tuna').is<string>(); // assert value has type
+declare('tuna').is<string>(); // assert value is of type
 declare<string>().is<string>(); // assert two types are equal
 ```
 
