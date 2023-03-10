@@ -1,8 +1,8 @@
 {
-  "name": "ithink",
+  "name": "typejest",
   "version": "0.0.1",
-  "module": "index.d.ts",
-  "main": "index.ts",
+  "module": "./lib/mod.js",
+  "main": "./lib/mod.js",
   "devDependencies": {
     "typescript": "^4.9.5"
   },
