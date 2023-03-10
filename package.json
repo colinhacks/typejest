@@ -17,5 +17,9 @@
       "types": "./lib/mod.d.ts"
     }
   },
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "tsc --noEmit"
+  }
 }
