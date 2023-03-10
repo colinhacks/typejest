@@ -58,7 +58,7 @@ texpect<string>().is<string>(); // assert two types are equal
 
 If an assertion is not true, `typejest` will throw an error.
 
-![error message](https://user-images.githubusercontent.com/3084745/224267196-35fd4473-3977-45e1-894c-3bb77eafe7b7.png)
+<img width="839" alt="texpect error" src="https://user-images.githubusercontent.com/3084745/224424727-56dbab49-fba2-4d02-aff1-024912ddd5bf.png">
 
 ## API
 
