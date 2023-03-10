@@ -1,3 +1,3 @@
-import {declare} from './index.js';
-export default declare;
+import {typeduck} from './index.js';
+export default typeduck;
 export * from './index.js';

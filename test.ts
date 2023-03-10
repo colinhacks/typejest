@@ -1,89 +1,91 @@
-import {declare} from './mod.js';
+import {typeduck} from './mod.js';
 
 const value = 'tuna';
-declare(value).is<string>();
+typeduck(value).is<string>();
 
-declare<string>().extends<any>();
-declare<number>().is<number>();
-declare(5).is<number>();
+typeduck<string>().extends<any>();
+typeduck<number>().is<number>();
+typeduck(5).is<number>();
 
 function length(arg: string) {
   return arg.length;
 }
 
-declare<typeof length>().returns<number>();
-declare<typeof length>().accepts<[string]>();
+typeduck<typeof length>().returns<number>();
+typeduck<typeof length>().accepts<[string]>();
 
 const tupleValue = ['string', 234] as const;
-declare(tupleValue).writable.is<['string', 234]>();
-declare(tupleValue).first<'string'>();
-declare(tupleValue).last<234>();
-declare(tupleValue).tuple();
-declare<[]>().tuple();
+typeduck(tupleValue).writable.is<['string', 234]>();
+typeduck(tupleValue).first<'string'>();
+typeduck(tupleValue).last<234>();
+typeduck(tupleValue).tuple();
+typeduck<[]>().tuple();
 // @ts-expect-error
-declare<string[]>().tuple();
+typeduck<string[]>().tuple();
 
 interface Dog {
   name: string;
   age: number;
 }
-declare<Dog>().omit('name').is<{age: number}>();
-declare<Dog>().omit<'name'>().is<{age: number}>();
-declare<Dog>().pick('name').is<{name: string}>();
-declare<Dog>().partial.pick<'name'>().is<{name?: string}>();
+
+typeduck<Dog>().omit('name').is<{age: number}>();
+typeduck<Dog>().omit<'name'>().is<{age: number}>();
+typeduck<Dog>().pick('name').is<{name: string}>();
+typeduck<Dog>().partial.pick<'name'>().is<{name?: string}>();
+typeduck<Dog>().keyof.is<'name' | 'age'>();
 
 // @ts-expect-error
-declare<number>('asdf');
+typeduck<number>('asdf');
 // @ts-expect-error
-declare<number>().is<string>();
+typeduck<number>().is<string>();
 // @ts-expect-error
-declare<number>().is('asdf');
+typeduck<number>().is('asdf');
 // @ts-expect-error
-declare<any>().is<number>();
+typeduck<any>().is<number>();
 // @ts-expect-error
-declare<number>().is<any>();
+typeduck<number>().is<any>();
 
-declare('asdf').string();
-declare(123).number();
-declare(true).boolean();
-declare(false).boolean();
-declare(Symbol()).symbol();
-declare(BigInt(123)).bigint();
-declare({}).object();
-declare(() => {}).function();
-declare<any[]>().array();
-declare(null).null();
-declare(undefined).undefined();
-declare<never>().never();
-declare<unknown>().unknown();
-declare<void>().void();
+typeduck('asdf').string();
+typeduck(123).number();
+typeduck(true).boolean();
+typeduck(false).boolean();
+typeduck(Symbol()).symbol();
+typeduck(BigInt(123)).bigint();
+typeduck({}).object();
+typeduck(() => {}).function();
+typeduck<any[]>().array();
+typeduck(null).null();
+typeduck(undefined).undefined();
+typeduck<never>().never();
+typeduck<unknown>().unknown();
+typeduck<void>().void();
 
-declare('asdf').string();
+typeduck('asdf').string();
 // @ts-expect-error
-declare('asdf').number();
+typeduck('asdf').number();
 // @ts-expect-error
-declare('asdf').boolean();
+typeduck('asdf').boolean();
 // @ts-expect-error
-declare('asdf').boolean();
+typeduck('asdf').boolean();
 // @ts-expect-error
-declare('asdf').symbol();
+typeduck('asdf').symbol();
 // @ts-expect-error
-declare('asdf').bigint();
+typeduck('asdf').bigint();
 // @ts-expect-error
-declare('asdf').object();
+typeduck('asdf').object();
 // @ts-expect-error
-declare('asdf').function();
+typeduck('asdf').function();
 // @ts-expect-error
-declare<'asdf'>().array();
+typeduck<'asdf'>().array();
 // @ts-expect-error
-declare('asdf').null();
+typeduck('asdf').null();
 // @ts-expect-error
-declare('asdf').undefined();
+typeduck('asdf').undefined();
 // @ts-expect-error
-declare<'asdf'>().never();
+typeduck<'asdf'>().never();
 // @ts-expect-error
-declare<'asdf'>().unknown();
+typeduck<'asdf'>().unknown();
 // @ts-expect-error
-declare<'asdf'>().void();
+typeduck<'asdf'>().void();
 
-declare(1243).is<number>();
+typeduck(1243).is<number>();

@@ -1,125 +1,123 @@
 interface declare {
-  <A>(value: A): typejest<A, A>;
-  <A>(): typejest<A, never>;
+  <A>(value?: A): Declare<A>;
 }
 
 type Writable<T> = {
   -readonly [P in keyof T]: T[P];
 };
 
-type typejest<A, V> = {
-  _a: A;
-  readonly: typejest<Readonly<A>, V>;
-  writable: typejest<Writable<A>, V>;
-  awaited: typejest<Awaited<A>, V>;
+type Declare<A> = {
+  readonly: Declare<Readonly<A>>;
+  writable: Declare<Writable<A>>;
+  awaited: Declare<Awaited<A>>;
   is<B>(
     ...TYPES_DO_NOT_MATCH: isExact<A, B> extends true ? [undefined?] : [never]
-  ): V;
+  ): void;
   extends<B>(
     ...TYPES_DO_NOT_MATCH: A extends B ? [undefined?] : ["types don't match"]
-  ): V;
+  ): void;
   true(
     ...TYPES_DO_NOT_MATCH: isExact<A, true> extends true
       ? []
       : ["types don't match"]
-  ): V;
+  ): void;
   false(
     ...TYPES_DO_NOT_MATCH: isExact<A, true> extends true
       ? []
       : ["types don't match"]
-  ): V;
+  ): void;
   boolean(
     ...TYPES_DO_NOT_MATCH: isExact<A, boolean> extends true
       ? []
       : ["types don't match"]
-  ): V;
+  ): void;
   number(
     ...TYPES_DO_NOT_MATCH: isExact<A, number> extends true
       ? []
       : ["types don't match"]
-  ): V;
+  ): void;
   string(
     ...TYPES_DO_NOT_MATCH: isExact<A, string> extends true
       ? []
       : ["types don't match"]
-  ): V;
+  ): void;
   symbol(
     ...TYPES_DO_NOT_MATCH: isExact<A, symbol> extends true
       ? []
       : ["types don't match"]
-  ): V;
+  ): void;
   bigint(
     ...TYPES_DO_NOT_MATCH: isExact<A, bigint> extends true
       ? []
       : ["types don't match"]
-  ): V;
+  ): void;
   object(
     ...TYPES_DO_NOT_MATCH: isExact<A, object> extends true
       ? []
       : ["types don't match"]
-  ): V;
+  ): void;
   tuple(
     ...TYPES_DO_NOT_MATCH: A extends []
       ? []
       : A extends readonly [any, ...any[]]
       ? []
       : ["types don't match"]
-  ): V;
+  ): void;
   function(
     ...TYPES_DO_NOT_MATCH: A extends (...args: any[]) => any
       ? []
       : ["types don't match"]
-  ): V;
+  ): void;
   array(
     ...TYPES_DO_NOT_MATCH: A extends Readonly<any[]>
       ? []
       : ["types don't match"]
-  ): V;
+  ): void;
   null(
     ...TYPES_DO_NOT_MATCH: isExact<A, null> extends true
       ? []
       : ["types don't match"]
-  ): V;
+  ): void;
   undefined(
     ...TYPES_DO_NOT_MATCH: isExact<A, undefined> extends true
       ? []
       : ["types don't match"]
-  ): V;
+  ): void;
   never(
     ...TYPES_DO_NOT_MATCH: isNever<A> extends true ? [] : ["types don't match"]
-  ): V;
+  ): void;
   unknown(
     ...TYPES_DO_NOT_MATCH: isUnknown<A> extends true
       ? []
       : ["types don't match"]
-  ): V;
+  ): void;
   any(
     ...TYPES_DO_NOT_MATCH: isAny<A> extends true ? [] : ["types don't match"]
-  ): V;
+  ): void;
   void(
     ...TYPES_DO_NOT_MATCH: isExact<A, void> extends true
       ? []
       : ["types don't match"]
-  ): V;
-} & objectDeclaration<A, V> &
-  tupleDeclaration<A, V> &
-  functionDeclaration<A, V>;
+  ): void;
+} & objectDeclaration<A> &
+  tupleDeclaration<A> &
+  functionDeclaration<A>;
 
-type objectDeclaration<A, V> = isNever<A> extends true
+type objectDeclaration<A> = isNever<A> extends true
   ? unknown
   : isAny<A> extends true
   ? unknown
   : A extends object
   ? {
-      keyof: typejest<keyof A, V>;
-      required: typejest<Required<A>, V>;
-      partial: typejest<Partial<A>, V>;
-      omit<B extends keyof A>(...args: B[]): typejest<Omit<A, B>, V>;
-      pick<B extends keyof A>(...args: B[]): typejest<Pick<A, B>, V>;
+      keyof: Declare<keyof A>;
+      required: Declare<Required<A>>;
+      partial: Declare<Partial<A>>;
+      omit<B extends keyof A>(...args: B[]): Declare<Omit<A, B>>;
+      pick<B extends keyof A>(...args: B[]): Declare<Pick<A, B>>;
     }
   : {};
 
-type tupleDeclaration<A, V> = isNever<A> extends true
+type tupleDeclaration<A> = isNever<A> extends true
   ? unknown
   : isAny<A> extends true
   ? unknown
@@ -131,18 +129,18 @@ type tupleDeclaration<A, V> = isNever<A> extends true
             ? [undefined?]
             : [never]
           : [never]
-      ): V;
+      ): void;
       last<B>(
         ...TYPES_DO_NOT_MATCH: Writable<A> extends [...any[], infer Last]
           ? isExact<Last, B> extends true
             ? [undefined?]
             : [never]
           : [never]
-      ): V;
+      ): void;
     }
   : {};
 
-type functionDeclaration<A, V> = isNever<A> extends true
+type functionDeclaration<A> = isNever<A> extends true
   ? unknown
   : isAny<A> extends true
   ? unknown
@@ -152,44 +150,58 @@ type functionDeclaration<A, V> = isNever<A> extends true
         ...TYPES_DO_NOT_MATCH: isExact<Returns, B> extends true
           ? [undefined?]
           : [never]
-      ): V;
+      ): void;
       accepts<B extends any[]>(
         ...TYPES_DO_NOT_MATCH: isExact<Args, B> extends true
           ? [undefined?]
           : [never]
-      ): V;
+      ): void;
     }
   : {};
 
-export const declare = ((_value?: any) => {
-  return {
-    is: () => this,
-    satisfies: () => this,
-  };
+export const typeduck = ((_value?: any) => {
+  return new DeclareClass();
 }) as any as declare;
 
-const arg = declare<never>();
+class DeclareClass {
+  is = () => undefined;
+  extends = () => undefined;
+  true = () => undefined;
+  false = () => undefined;
+  boolean = () => undefined;
+  number = () => undefined;
+  string = () => undefined;
+  symbol = () => undefined;
+  bigint = () => undefined;
+  object = () => undefined;
+  function = () => undefined;
+  array = () => undefined;
+  tuple = () => undefined;
+  null = () => undefined;
+  undefined = () => undefined;
+  never = () => undefined;
+  unknown = () => undefined;
+  any = () => undefined;
+  void = () => undefined;
+  readonly = this;
+  writable = this;
+  awaited = this;
 
-Object.assign(declare, {
-  extends: () => this,
-  true: () => undefined,
-  false: () => undefined,
-  boolean: () => undefined,
-  number: () => undefined,
-  string: () => undefined,
-  symbol: () => undefined,
-  bigint: () => undefined,
-  object: () => undefined,
-  function: () => undefined,
-  array: () => undefined,
-  tuple: () => undefined,
-  null: () => undefined,
-  undefined: () => undefined,
-  never: () => undefined,
-  unknown: () => undefined,
-  any: () => undefined,
-  void: () => undefined,
-});
+  // object
+  pick = () => this;
+  omit = () => this;
+  keyof = this;
+  required = this;
+  partial = this;
+
+  // tuple
+  first = () => undefined;
+  last = () => undefined;
+
+  // function
+  returns = () => undefined;
+  accepts = () => undefined;
+}
 
 type isExact<T, U> = tupleMatches<anyToBrand<T>, anyToBrand<U>> extends true
   ? tupleMatches<deepPrepareIsExact<T>, deepPrepareIsExact<U>> extends true
