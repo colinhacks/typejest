@@ -9,7 +9,7 @@
 <a href="https://github.com/colinhacks/typejest/actions?query=branch%3Amain"><img src="https://github.com/colinhacks/typejest/actions/workflows/test.yml/badge.svg?event=push&branch=main" alt="typejest CI status" /></a>
 <a href="https://twitter.com/colinhacks" rel="nofollow"><img src="https://img.shields.io/badge/created%20by-@colinhacks-4BBAAB.svg" alt="Created by Colin McDonnell"></a>
 <a href="https://opensource.org/licenses/MIT" rel="nofollow"><img src="https://img.shields.io/github/license/colinhacks/typejest" alt="License"></a>
-<a href="https://www.npmjs.com/package/typejest" rel="nofollow"><img src="https://img.shields.io/npm/dw/typejest.svg" alt="npm"></a>
+<!-- <a href="https://www.npmjs.com/package/typejest" rel="nofollow"><img src="https://img.shields.io/npm/dw/typejest.svg" alt="npm"></a> -->
 <a href="https://www.npmjs.com/package/typejest" rel="nofollow"><img src="https://img.shields.io/github/stars/colinhacks/typejest" alt="stars"></a>
 </p>
 
