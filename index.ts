@@ -1,102 +1,176 @@
-interface hopefully {
-  <A>(value?: A): matchers<A>;
+interface declare {
+  <A>(value: A): typejest<A, A>;
+  <A>(): typejest<A, never>;
 }
-interface matchers<A> {
+
+type Writable<T> = {
+  -readonly [P in keyof T]: T[P];
+};
+
+type typejest<A, V> = {
+  _a: A;
+  readonly: typejest<Readonly<A>, V>;
+  writable: typejest<Writable<A>, V>;
+  awaited: typejest<Awaited<A>, V>;
   is<B>(
-    arg?: B,
     ...TYPES_DO_NOT_MATCH: isExact<A, B> extends true ? [undefined?] : [never]
-  ): matchers<A>;
+  ): V;
   extends<B>(
-    arg?: B,
     ...TYPES_DO_NOT_MATCH: A extends B ? [undefined?] : ["types don't match"]
-  ): isExact<A, B> extends true ? matchers<A> : never & {asdf: 'asd'};
+  ): V;
   true(
     ...TYPES_DO_NOT_MATCH: isExact<A, true> extends true
       ? []
       : ["types don't match"]
-  ): matchers<A>;
+  ): V;
   false(
     ...TYPES_DO_NOT_MATCH: isExact<A, true> extends true
       ? []
       : ["types don't match"]
-  ): matchers<A>;
+  ): V;
   boolean(
     ...TYPES_DO_NOT_MATCH: isExact<A, boolean> extends true
       ? []
       : ["types don't match"]
-  ): matchers<A>;
+  ): V;
   number(
     ...TYPES_DO_NOT_MATCH: isExact<A, number> extends true
       ? []
       : ["types don't match"]
-  ): matchers<A>;
+  ): V;
   string(
     ...TYPES_DO_NOT_MATCH: isExact<A, string> extends true
       ? []
       : ["types don't match"]
-  ): matchers<A>;
+  ): V;
   symbol(
     ...TYPES_DO_NOT_MATCH: isExact<A, symbol> extends true
       ? []
       : ["types don't match"]
-  ): matchers<A>;
+  ): V;
   bigint(
     ...TYPES_DO_NOT_MATCH: isExact<A, bigint> extends true
       ? []
       : ["types don't match"]
-  ): matchers<A>;
+  ): V;
   object(
     ...TYPES_DO_NOT_MATCH: isExact<A, object> extends true
       ? []
       : ["types don't match"]
-  ): matchers<A>;
-  function(
-    ...TYPES_DO_NOT_MATCH: A extends (...args:any[])=>any extends true
+  ): V;
+  tuple(
+    ...TYPES_DO_NOT_MATCH: A extends []
+      ? []
+      : A extends readonly [any, ...any[]]
       ? []
       : ["types don't match"]
-  ): matchers<A>;
+  ): V;
+  function(
+    ...TYPES_DO_NOT_MATCH: A extends (...args: any[]) => any
+      ? []
+      : ["types don't match"]
+  ): V;
   array(
-    ...TYPES_DO_NOT_MATCH: A extends any[] ? [] : ["types don't match"]
-  ): matchers<A>;
-  tuple(
-    ...TYPES_DO_NOT_MATCH: A extends any[] ? [] : ["types don't match"]
-  ): matchers<A>;
+    ...TYPES_DO_NOT_MATCH: A extends Readonly<any[]>
+      ? []
+      : ["types don't match"]
+  ): V;
   null(
     ...TYPES_DO_NOT_MATCH: isExact<A, null> extends true
       ? []
       : ["types don't match"]
-  ): matchers<A>;
+  ): V;
   undefined(
     ...TYPES_DO_NOT_MATCH: isExact<A, undefined> extends true
       ? []
       : ["types don't match"]
-  ): matchers<A>;
+  ): V;
   never(
     ...TYPES_DO_NOT_MATCH: isNever<A> extends true ? [] : ["types don't match"]
-  ): matchers<A>;
+  ): V;
   unknown(
     ...TYPES_DO_NOT_MATCH: isUnknown<A> extends true
       ? []
       : ["types don't match"]
-  ): matchers<A>;
+  ): V;
   any(
     ...TYPES_DO_NOT_MATCH: isAny<A> extends true ? [] : ["types don't match"]
-  ): matchers<A>;
+  ): V;
   void(
     ...TYPES_DO_NOT_MATCH: isExact<A, void> extends true
       ? []
       : ["types don't match"]
-  ): matchers<A>;
-}
+  ): V;
+} & objectDeclaration<A, V> &
+  tupleDeclaration<A, V> &
+  functionDeclaration<A, V>;
 
-export const hopefully = ((_value?: any) => {
+type objectDeclaration<A, V> = isNever<A> extends true
+  ? unknown
+  : isAny<A> extends true
+  ? unknown
+  : A extends object
+  ? {
+      keyof: typejest<keyof A, V>;
+      required: typejest<Required<A>, V>;
+      partial: typejest<Partial<A>, V>;
+      omit<B extends keyof A>(...args: B[]): typejest<Omit<A, B>, V>;
+      pick<B extends keyof A>(...args: B[]): typejest<Pick<A, B>, V>;
+    }
+  : {};
+
+type tupleDeclaration<A, V> = isNever<A> extends true
+  ? unknown
+  : isAny<A> extends true
+  ? unknown
+  : A extends Readonly<any[]>
+  ? {
+      first<B>(
+        ...TYPES_DO_NOT_MATCH: A extends Readonly<[infer First, ...any[]]>
+          ? isExact<First, B> extends true
+            ? [undefined?]
+            : [never]
+          : [never]
+      ): V;
+      last<B>(
+        ...TYPES_DO_NOT_MATCH: Writable<A> extends [...any[], infer Last]
+          ? isExact<Last, B> extends true
+            ? [undefined?]
+            : [never]
+          : [never]
+      ): V;
+    }
+  : {};
+
+type functionDeclaration<A, V> = isNever<A> extends true
+  ? unknown
+  : isAny<A> extends true
+  ? unknown
+  : A extends (...args: infer Args) => infer Returns
+  ? {
+      returns<B>(
+        ...TYPES_DO_NOT_MATCH: isExact<Returns, B> extends true
+          ? [undefined?]
+          : [never]
+      ): V;
+      accepts<B extends any[]>(
+        ...TYPES_DO_NOT_MATCH: isExact<Args, B> extends true
+          ? [undefined?]
+          : [never]
+      ): V;
+    }
+  : {};
+
+export const declare = ((_value?: any) => {
   return {
     is: () => this,
     satisfies: () => this,
   };
-}) as any as hopefully;
+}) as any as declare;
 
-Object.assign(hopefully, {
+const arg = declare<never>();
+
+Object.assign(declare, {
   extends: () => this,
   true: () => undefined,
   false: () => undefined,
@@ -117,45 +191,6 @@ Object.assign(hopefully, {
   void: () => undefined,
 });
 
-// t('val').is<string>(); //.toBeType<string>();
-/**
- * Asserts at compile time that the provided type argument's type resolves to the expected boolean literal type.
- * @param expectTrue - True if the passed in type argument resolved to true.
- */
-// export declare function assert<T extends true | false>(expectTrue: T): void;
-/**
- * Asserts at compile time that the provided type argument's type resolves to true.
- */
-type isTrue<T extends true> = never;
-/**
- * Asserts at compile time that the provided type argument's type resolves to false.
- */
-type isFalse<T extends false> = never;
-/**
- * Asserts at compile time that the provided type argument's type resolves to the expected boolean literal type.
- */
-type assert<T extends true | false, Expected extends T> = never;
-/**
- * Checks if type `T` has the specified type `U`.
- */
-type has<T, U> = isAny<T> extends true
-  ? true
-  : isAny<U> extends true
-  ? false
-  : Extract<T, U> extends never
-  ? false
-  : true;
-/**
- * Checks if type `T` does not have the specified type `U`.
- */
-type NotHas<T, U> = has<T, U> extends false ? true : false;
-/**
- * Checks if type `T` is possibly null or undefined.
- */
-type isNullable<T> = Extract<T, null | undefined> extends never ? false : true;
-/**
- * Checks if type `T` exactly matches type `U`.
- */
 type isExact<T, U> = tupleMatches<anyToBrand<T>, anyToBrand<U>> extends true
   ? tupleMatches<deepPrepareIsExact<T>, deepPrepareIsExact<U>> extends true
     ? true

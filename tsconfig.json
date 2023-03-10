@@ -12,6 +12,14 @@
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "allowJs": true
-  }
+    "allowJs": true,
+    "outDir": "lib",
+    "declaration": true
+  },
+  "include": [
+    "."
+  ],
+  "exclude": [
+    "lib"
+  ]
 }
