@@ -1,6 +1,5 @@
 <p align="center">
-  <h1 align="center">🦆</h1>
-  <h1 align="center"><code>typejest</code></h1>
+  <h1 align="center">🦆<br/><code>typejest</code></h1>
   <p align="center">
     Delightful type assertions with a Jest-like API
   </p>
