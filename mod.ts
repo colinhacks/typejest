@@ -1,3 +1,3 @@
-import {typeduck} from './index.js';
-export default typeduck;
+import {texpect} from './index.js';
+export default texpect;
 export * from './index.js';

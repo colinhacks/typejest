@@ -29,36 +29,34 @@ pnpm add -D typejest
 
 ## Usage
 
-First, import the `declare` function from `typejest`.
+First, import the `texpect` function from `typejest`.
 
 ```ts
-import {declare} from 'typejest';
+import {texpect} from 'typejest';
 ```
 
 Start by specifying an _input type_.
 
 ```ts
 // you can pass in a value
-declare('tuna'); // Declare<string>
+texpect('tuna'); // TExpect<string>
 
 // or pass in a type directly
-declare<string>(); // Declare<string>
+texpect<string>(); // TExpect<string>
 ```
 
-> Note: `declare` is analogous to `expect` in Jest.
+> Note: `texpect` is analogous to `expect` in Jest.
 
-The returned `Declare` object has a bunch of methods that can be usd to make assertions about the type.
-
-To assert that the input _exactly matches_ a certain type:
+The returned `Declare` object has methods that can be used to make assertions about the type. For instance, to assert that the input _exactly matches_ a certain type:
 
 ```ts
-import {declare} from 'typejest';
+import {texpect} from 'typejest';
 
-declare('tuna').is<string>(); // assert value is of type
-declare<string>().is<string>(); // assert two types are equal
+texpect('tuna').is<string>(); // assert value is of type
+texpect<string>().is<string>(); // assert two types are equal
 ```
 
-If a declaration is not true, `typejest` will throw an error.
+If an assertion is not true, `typejest` will throw an error.
 
 ![error message](https://user-images.githubusercontent.com/3084745/224267196-35fd4473-3977-45e1-894c-3bb77eafe7b7.png)
 
@@ -67,8 +65,8 @@ If a declaration is not true, `typejest` will throw an error.
 To assert that the input _exactly matches_ a certain type:
 
 ```ts
-declare('tuna').is<string>();
-declare<string>().is<string>();
+texpect('tuna').is<string>();
+texpect<string>().is<string>();
 ```
 
 To assert that the input _extends_ a certain type:
@@ -76,27 +74,27 @@ To assert that the input _extends_ a certain type:
 ```ts
 const value = 'asdf';
 
-declare(value).extends<string | number>(); // true
-declare<string>().extends<string | number>(); // true
+texpect(value).extends<string | number>(); // true
+texpect<string>().extends<string | number>(); // true
 ```
 
 To assert that the input matches certain common types, convenience methods are provided:
 
 ```ts
-declare('asdf').string();
-declare(123).number();
-declare(true).boolean();
-declare(false).boolean();
-declare(Symbol()).symbol();
-declare(BigInt(123)).bigint();
-declare({}).object();
-declare(() => {}).function();
-declare<any[]>().array();
-declare(null).null();
-declare(undefined).undefined();
-declare<never>().never();
-declare<unknown>().unknown();
-declare<void>().void();
+texpect('asdf').string();
+texpect(123).number();
+texpect(true).boolean();
+texpect(false).boolean();
+texpect(Symbol()).symbol();
+texpect(BigInt(123)).bigint();
+texpect({}).object();
+texpect(() => {}).function();
+texpect<any[]>().array();
+texpect(null).null();
+texpect(undefined).undefined();
+texpect<never>().never();
+texpect<unknown>().unknown();
+texpect<void>().void();
 ```
 
 ### Object types
@@ -106,23 +104,23 @@ The following helpers are available for _object types_. These helpers transform 
 ```ts
 type Dog = {name: string; age?: number};
 
-declare<Dog>().partial; // Declare<Partial<Dog>>
-declare<Dog>().required; // Declare<Partial<Dog>>
-declare<Dog>().keyof; // Declare<keyof Dog>
+texpect<Dog>().partial; // TExpect<Partial<Dog>>
+texpect<Dog>().required; // TExpect<Partial<Dog>>
+texpect<Dog>().keyof; // TExpect<keyof Dog>
 
-declare<Dog>().pick<'name'>; // Declare<Pick<Dog, "name">>
-declare<Dog>().pick('name'); // Declare<Pick<Dog, "name">>
+texpect<Dog>().pick<'name'>; // TExpect<Pick<Dog, "name">>
+texpect<Dog>().pick('name'); // TExpect<Pick<Dog, "name">>
 
-declare<Dog>().omit<'name'>; // Declare<Omit<Dog, "name">>
-declare<Dog>().omit('name'); // Declare<Omit<Dog, "name">>
+texpect<Dog>().omit<'name'>; // TExpect<Omit<Dog, "name">>
+texpect<Dog>().omit('name'); // TExpect<Omit<Dog, "name">>
 ```
 
 These helpers can be used in conjunction with the assertion methods:
 
 ```ts
-declare<Dog>.pick("name").is<{ name: string }>();
-declare<Dog>.partial.is<{ name?: string; age?: number; }>();
-declare<Dog>.keyof.is<"name" | "age">();
+texpect<Dog>.pick("name").is<{ name: string }>();
+texpect<Dog>.partial.is<{ name?: string; age?: number; }>();
+texpect<Dog>.keyof.is<"name" | "age">();
 ```
 
 ### Tuple types
@@ -132,8 +130,8 @@ The following assertion methods are available for _tuple types_:
 ```ts
 const value = ['string', 234] as const;
 
-declare<typeof value>().first<'string'>();
-declare<typeof value>().last<234>();
+texpect<typeof value>().first<'string'>();
+texpect<typeof value>().last<234>();
 ```
 
 ### Object types
@@ -145,8 +143,8 @@ function length(arg: string) {
   return arg.length;
 }
 
-declare<typeof length>().returns<number>();
-declare<typeof length>().accepts<[string]>();
+texpect<typeof length>().returns<number>();
+texpect<typeof length>().accepts<[string]>();
 ```
 
 ## Development

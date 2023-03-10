@@ -1,15 +1,15 @@
-interface declare {
-  <A>(value?: A): Declare<A>;
+interface texpect {
+  <A>(value?: A): TExpect<A>;
 }
 
 type Writable<T> = {
   -readonly [P in keyof T]: T[P];
 };
 
-type Declare<A> = {
-  readonly: Declare<Readonly<A>>;
-  writable: Declare<Writable<A>>;
-  awaited: Declare<Awaited<A>>;
+type TExpect<A> = {
+  readonly: TExpect<Readonly<A>>;
+  writable: TExpect<Writable<A>>;
+  awaited: TExpect<Awaited<A>>;
   is<B>(
     ...TYPES_DO_NOT_MATCH: isExact<A, B> extends true ? [undefined?] : [never]
   ): void;
@@ -109,11 +109,11 @@ type objectDeclaration<A> = isNever<A> extends true
   ? unknown
   : A extends object
   ? {
-      keyof: Declare<keyof A>;
-      required: Declare<Required<A>>;
-      partial: Declare<Partial<A>>;
-      omit<B extends keyof A>(...args: B[]): Declare<Omit<A, B>>;
-      pick<B extends keyof A>(...args: B[]): Declare<Pick<A, B>>;
+      keyof: TExpect<keyof A>;
+      required: TExpect<Required<A>>;
+      partial: TExpect<Partial<A>>;
+      omit<B extends keyof A>(...args: B[]): TExpect<Omit<A, B>>;
+      pick<B extends keyof A>(...args: B[]): TExpect<Pick<A, B>>;
     }
   : {};
 
@@ -159,11 +159,11 @@ type functionDeclaration<A> = isNever<A> extends true
     }
   : {};
 
-export const typeduck = ((_value?: any) => {
-  return new DeclareClass();
-}) as any as declare;
+export const texpect = ((_value?: any) => {
+  return new _TExpect();
+}) as texpect;
 
-class DeclareClass {
+class _TExpect {
   is = () => undefined;
   extends = () => undefined;
   true = () => undefined;
