@@ -105,7 +105,7 @@ The following helpers are available for _object types_. These helpers transform 
 type Dog = {name: string; age?: number};
 
 texpect<Dog>().partial; // TExpect<Partial<Dog>>
-texpect<Dog>().required; // TExpect<Partial<Dog>>
+texpect<Dog>().required; // TExpect<Required<Dog>>
 texpect<Dog>().keyof; // TExpect<keyof Dog>
 
 texpect<Dog>().pick<'name'>; // TExpect<Pick<Dog, "name">>
@@ -118,9 +118,9 @@ texpect<Dog>().omit('name'); // TExpect<Omit<Dog, "name">>
 These helpers can be used in conjunction with the assertion methods:
 
 ```ts
+texpect<Dog>.keyof.is<"name" | "age">();
 texpect<Dog>.pick("name").is<{ name: string }>();
 texpect<Dog>.partial.is<{ name?: string; age?: number; }>();
-texpect<Dog>.keyof.is<"name" | "age">();
 ```
 
 ### Tuple types
